@@ -2,4 +2,4 @@ install:
   - npm install -g ganache-cli
   - npm install -g truffle
 script:
-  - ganache-cli -p 8545 start && truffle test
+  - ganache-cli -p 8545 start & truffle test
