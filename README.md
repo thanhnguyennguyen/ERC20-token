@@ -4,7 +4,7 @@ Demonstrates the use of ECR20 Standard for creating a Token Contract
 ## Symbol: NGUYENNGUYEN
 ## Decimal: 0
 
-# Docker: nguyennguyen/ERC20-token
+# Docker: nguyennguyen/erc20
 # Testing:
 Please never write code without tests
 <code>truffle test</code>
