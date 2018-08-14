@@ -82,7 +82,17 @@ contract('NguyenToken', function(accounts) {
         return nguyenInstance.balanceOf.call(nguyenAccount);
     }).then(function(result) {
       assert.equal(977, result);
-      console.log('NguyenAccount now has ' + result + ' tokens ');    
+      console.log('NguyenAccount now has ' + result + ' tokens ');
+      return nguyenInstance.sendTransaction({from: thirdAccount, value: web3.toWei('2', "ether")});
+    }).then(function() {
+      return nguyenInstance.balanceOf.call(thirdAccount);
+    }).then(function(result) {
+      console.log('ThirdAccount purchased more 2 tokens, now thirdAccount has ' + result + ' NguyenTokens');
+      assert.equal(10, result); // 8 + 2 = 10
+      return nguyenInstance.balanceOf.call(nguyenAccount);
+    }).then(function(result) {
+      console.log('NguyenAccount sell 2 tokens to ThirdAccount, now NguyenAccount has ' + result + ' NguyenTokens');
+      assert.equal(975, result); // 977 -2 = 975
     })
   });
 });

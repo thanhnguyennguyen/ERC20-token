@@ -134,14 +134,15 @@ contract NguyenToken is ERC20Token{
   // Fallback function
   // accept purchasing by ethers
   function() public payable {
-    require(msg.value >= 1 ether && balances[manager] >= msg.value);
+    require(msg.value >= 1 ether);
+    uint num = uint(msg.value / (1 ether));
+    require(balances[manager] >= num);
     // Reduce the balance by _value
-    balances[manager] -= uint(msg.value);
+    balances[manager] -= num;
 
     // Increase the balance of the receiever that is account with address _to
-    balances[msg.sender] += uint(msg.value);
-
+    balances[msg.sender] += num;
     // Declare & Emit the transfer event
-    emit Transfer(manager, msg.sender, uint(msg.value));
+    emit Transfer(manager, msg.sender, num);
   }
 }
