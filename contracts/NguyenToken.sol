@@ -31,6 +31,11 @@ contract NguyenToken is ERC20Token{
     manager = msg.sender;
   }
 
+  // Anyone can call this constant function to check the balance of tokens for an address
+  function balanceOf(address _someone) public constant returns (uint256 balance){
+    return balances[_someone];
+  }
+
   function transfer(address _to, uint256 _value) public returns (bool success) {
         // Return false if specified value is less than the balance available
     if(_value > 0  && balances[msg.sender] < _value) {
@@ -100,6 +105,7 @@ contract NguyenToken is ERC20Token{
     return true;
   }
 
+  // burn tokens
   function burn(uint _number) public {
     require(_number > 0 && balances[msg.sender] > _number);
     // Reduce the balance by _value
@@ -115,6 +121,7 @@ contract NguyenToken is ERC20Token{
     _;
   }
 
+  // issue more tokens
   function increaseTotalSupply(uint _number) onlyManager public {
         require(_number > 0);
     // Increase the balance by _value
