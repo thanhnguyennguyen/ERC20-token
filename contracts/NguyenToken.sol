@@ -1,0 +1,140 @@
+pragma solidity ^0.4.22;
+import './ERC20Token.sol';
+
+contract NguyenToken is ERC20Token{
+
+  address private manager;
+
+  // Maintain the balance in a mapping
+  mapping(address => uint256)  balances;
+
+  // Allowances
+  // Two dimensional associative array
+  // index-1 = Owner account   index-2 = spender account
+  mapping(address => mapping (address => uint256)) allowances;
+
+  /// emit from Burning event
+  event Burn(address indexed _burnerm, uint256 indexed _value);
+
+  /// emit from issue event
+  event Issue(address indexed _burnerm, uint256 indexed _value);
+
+  constructor(uint _totalSupply) public {
+    name = 'NguyenNguyen Token';
+    symbol = 'NGUYENNGUYEN';
+    totalSupply = _totalSupply;
+    decimals = 0;
+
+    // Set the sender as the owner of all the initial set of tokens
+    // Declare the balances mapping
+    balances[msg.sender] = totalSupply;
+    manager = msg.sender;
+  }
+
+  function transfer(address _to, uint256 _value) public returns (bool success) {
+        // Return false if specified value is less than the balance available
+    if(_value > 0  && balances[msg.sender] < _value) {
+      return false;
+    }
+    if (_to == 0x0) revert(); // avoid burning
+    // Reduce the balance by _value
+    balances[msg.sender] -= _value;
+
+    // Increase the balance of the receiever that is account with address _to
+    balances[_to] += _value;
+
+    // Declare & Emit the transfer event
+    emit Transfer(msg.sender, _to, _value);
+
+    return true;
+  }
+
+  // How many tokens can spender spend from owner's account
+  function allowance(address _owner, address _spender) public constant returns (uint remaining){
+    //1. Declare a mapping to manage allowances
+    //2. Return the allowance for _spender approved by _owner
+    return allowances[_owner][_spender];
+  }
+
+  // Approval - sets the allowance
+  function approve(address _spender, uint256 _value) public returns (bool success) {
+    if(_value <= 0) return false;
+
+    // 3. Simply add/change the amount in allowances
+    allowances[msg.sender][_spender] = _value;
+
+    // 4. Declare the Approval event and emit it
+    emit Approval(msg.sender, _spender, _value);
+
+    return true;
+  }
+
+  // Transfer from
+  // B transfer _value from A's account to C' account
+  function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+    // Multiple if statements to make it easy to understand
+    // a) b) c) below may be combined with && in one statememnt
+
+    // a) Specified _value must be > 0
+    if(_value <= 0) return false;
+
+    if (_to == 0x0) revert(); // avoid burning
+    // b) Check if _spender allowed to spend the specified _value from _from account
+    // Spender's address = msg.sender
+    if(allowances[_from][msg.sender] < _value) return false;
+
+    // c) Check if the _from has enough tokens
+    if(balances[_from] < _value) return false;
+
+    // Reduce the balance _from
+    balances[_from] -= _value;
+    // Increase the balance _to
+    balances[_to] += _value;
+
+    // Reduce the allowance for spender
+    allowances[_from][msg.sender] -= _value;
+
+    // Emit a transfer event
+    emit Transfer(_from, _to, _value);
+
+    return true;
+  }
+
+  function burn(uint _number) public {
+    require(_number > 0 && balances[msg.sender] > _number);
+    // Reduce the balance by _value
+    balances[msg.sender] -= _number;
+    // Reduce total supply
+    totalSupply -= _number;
+    // Declare & Emit the transfer event
+    emit Burn(msg.sender, _number);
+  }
+
+  modifier onlyManager() {
+    require(msg.sender == manager);
+    _;
+  }
+
+  function increaseTotalSupply(uint _number) onlyManager public {
+        require(_number > 0);
+    // Increase the balance by _value
+    balances[msg.sender] += _number;
+    // Increase total supply
+    totalSupply += _number;
+    // Declare & Emit the transfer event
+    emit Issue(msg.sender, _number);
+  }
+  // Fallback function
+  // accept purchasing by ethers
+  function() public payable {
+    require(msg.value >= 1 ether && balances[manager] >= msg.value);
+    // Reduce the balance by _value
+    balances[manager] -= uint(msg.value);
+
+    // Increase the balance of the receiever that is account with address _to
+    balances[msg.sender] += uint(msg.value);
+
+    // Declare & Emit the transfer event
+    emit Transfer(manager, msg.sender, uint(msg.value));
+  }
+}
