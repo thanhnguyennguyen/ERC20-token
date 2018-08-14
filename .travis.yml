@@ -4,9 +4,11 @@ cache:
 language: node_js
 node_js:
   - "8"
-  
+
 install:
   - npm install -g ganache-cli
   - npm install -g truffle
 script:
-  - ganache-cli -p 8545 start & truffle test
+  - ganache-cli -p 8545  > /dev/null &
+  - sleep 5
+  - truffle test
