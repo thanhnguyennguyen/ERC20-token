@@ -73,7 +73,7 @@ contract('NguyenToken', function(accounts) {
                   });
                   // check balance of thirdAccount
                   nguyenInstance.balanceOf.call(nguyenAccount).then(function(result) {
-                    assert.equal(977, result);
+                    assert.equal(907, result);
                     console.log('NguyenAccount now has ' + result + ' tokens ');
                   });
                 });
