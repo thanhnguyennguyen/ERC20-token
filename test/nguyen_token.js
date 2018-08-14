@@ -23,7 +23,7 @@ contract('NguyenToken', function(accounts) {
         return nguyenInstance.symbol.call();
       }).then(function(result) {
         // test token symbol
-        assert.equal('NGUYENNGUYEN', result);
+        assert.equal('NGUYEN', result);
         console.log('Token symbol is ' + result);
         return nguyenInstance.transfer(secondAccount, 5, {from: nguyenAccount});
       }).then(function(result) {

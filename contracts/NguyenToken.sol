@@ -21,7 +21,7 @@ contract NguyenToken is ERC20Token{
 
   constructor(uint _totalSupply) public {
     name = 'NguyenNguyen Token';
-    symbol = 'NGUYENNGUYEN';
+    symbol = 'NGUYEN';
     totalSupply = _totalSupply;
     decimals = 0;
 
