@@ -93,6 +93,35 @@ contract('NguyenToken', function(accounts) {
     }).then(function(result) {
       console.log('NguyenAccount sell 2 tokens to ThirdAccount, now NguyenAccount has ' + result + ' NguyenTokens');
       assert.equal(975, result); // 977 -2 = 975
+
+      // check contract balance
+      return nguyenInstance.getBalance.call();
+    }).then(function(result) {
+      var balance = web3.fromWei(result);
+      console.log('Contract balance is ' + balance + ' ether');
+      assert.equal(2, balance);
+
+      // withdaw 1 ether from contract
+      console.log('withdaw  1 ether from contract to NguyenAccount');
+      return nguyenInstance.withdrawEther(nguyenAccount, 1, {from: nguyenAccount});
+    }).then(function() {
+      return nguyenInstance.getBalance.call();
+    }).then(function(result) {
+      var balance = web3.fromWei(result);
+      console.log('Contract balance is ' + balance + ' ether');
+      assert.equal(1, balance);
+      // kill contract and send all ether to NguyenAccount
+      console.log('kill contract and send all ether to NguyenAccount');
+      return nguyenInstance.killContract({from: nguyenAccount});
+    }).then(function() {
+      return web3.eth.getBalance(nguyenAccount);
+    }).then(function(result) {
+      var nguyenAccountBalance = web3.fromWei(result);
+      console.log('Nguyen account now has ' + nguyenAccountBalance + ' ether');
+      // at the beginning, NguyenAccount has 100 ether as default, now it has more 2 ethers
+      // deduct some wei in transaction fee, it has from 101 to less than 102 ethers
+      assert(nguyenAccountBalance > 101);
+      assert(nguyenAccountBalance < 102);
     })
   });
 });
