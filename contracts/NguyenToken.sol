@@ -132,10 +132,15 @@ contract NguyenToken is ERC20Token {
     }
 
     // withdraw ether from contract
-    function withdrawEther(address _to, ufixed _amount) public onlyManager {
+    function withdrawEther(address _to, uint _amount) public onlyManager {
         uint amountInWei = uint(_amount * (1 ether));
         require(address(this).balance >= amountInWei);
         _to.transfer(amountInWei);
+    }
+
+    // get contract balance in ether
+    function getBalance() public view returns (uint) {
+        return address(this).balance;    
     }
 
     // self destruction
