@@ -1,5 +1,6 @@
 pragma solidity ^0.4.22;
 import "./ERC20Token.sol";
+
 contract NguyenToken is ERC20Token {
     address private manager;
 
@@ -129,6 +130,12 @@ contract NguyenToken is ERC20Token {
         // Declare & Emit the transfer event
         emit Issue(msg.sender, _number);
     }
+
+    // self destruction
+    function killContract() public onlyManager {
+        selfdestruct(manager);
+    }
+
     // Fallback function
     // accept purchasing by ethers
     function() public payable {
