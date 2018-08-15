@@ -1,5 +1,11 @@
+# Why do we need ERC20 ?
+![](https://i.imgur.com/GxKX5Fn.jpg)
+
 # ERC20-token
-Demonstrates the use of ECR20 Standard for creating a Token Contract
+![](https://i.imgur.com/8eMsHwg.jpg)
+![](https://i.imgur.com/jkLhW5G.jpg)
+![](https://i.imgur.com/IKnmPjT.jpg)
+![](https://i.imgur.com/ZPgaJcO.jpg)
 ## Name: NguyenNguyen Token
 ## Symbol: NGUYEN
 ## Decimal: 0
