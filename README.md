@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/thanhnguyennguyen/ERC20-token.svg?branch=master)](https://travis-ci.com/thanhnguyennguyen/ERC20-token)
 # Why do we need ERC20 ?
 ![](https://i.imgur.com/GxKX5Fn.jpg)
 
