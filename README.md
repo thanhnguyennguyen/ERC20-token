@@ -15,4 +15,19 @@
 # Testing: <code>truffle test</code>
 Please never write code without tests
 
+# ERC-20 withdrawal from smartcontract pattern
+```
+contract TokenInterface {
+    function transferFrom(address from, address to, uint tokens) public returns (bool success);
+    function approve(address spender, uint tokens) public returns (bool success);
+    function balanceOf(address _owner) public view returns (uint balance);
+}
+function claimTokens (address token) public onlyOwner returns (bool){
+                TokenInterface _instance = TokenInterface(address);    
+                uint amount = _instance.balanceOf(contractAddress)
+                _instance.transfer(contractAddress, msg.sender, amount));
+                return true;
+            }
+```
+
 
