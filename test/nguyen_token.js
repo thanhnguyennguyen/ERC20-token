@@ -83,7 +83,7 @@ contract('NguyenToken', function(accounts) {
     }).then(function(result) {
       assert.equal(977, result);
       console.log('NguyenAccount now has ' + result + ' tokens ');
-      return nguyenInstance.sendTransaction({from: thirdAccount, value: web3.toWei('2', "ether")});
+      return nguyenInstance.sendTransaction({from: thirdAccount, value: web3.utils.toWei('2', "ether")});
     }).then(function() {
       return nguyenInstance.balanceOf.call(thirdAccount);
     }).then(function(result) {
