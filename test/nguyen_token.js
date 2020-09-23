@@ -97,7 +97,7 @@ contract('NguyenToken', function(accounts) {
       // check contract balance
       return nguyenInstance.getBalance.call();
     }).then(function(result) {
-      var balance = web3.fromWei(result);
+      var balance = web3.utils.fromWei(result);
       console.log('Contract balance is ' + balance + ' ether');
       assert.equal(2, balance);
 
@@ -107,7 +107,7 @@ contract('NguyenToken', function(accounts) {
     }).then(function() {
       return nguyenInstance.getBalance.call();
     }).then(function(result) {
-      var balance = web3.fromWei(result);
+      var balance = web3.utils.fromWei(result);
       console.log('Contract balance is ' + balance + ' ether');
       assert.equal(1, balance);
       // kill contract and send all ether to NguyenAccount
@@ -116,7 +116,7 @@ contract('NguyenToken', function(accounts) {
     }).then(function() {
       return web3.eth.getBalance(nguyenAccount);
     }).then(function(result) {
-      var nguyenAccountBalance = web3.fromWei(result);
+      var nguyenAccountBalance = web3.utils.fromWei(result);
       console.log('Nguyen account now has ' + nguyenAccountBalance + ' ether');
       // at the beginning, NguyenAccount has 100 ether as default, now it has more 2 ethers
       // deduct some wei in transaction fee, it has from 101 to less than 102 ethers
